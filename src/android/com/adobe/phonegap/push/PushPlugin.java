@@ -192,10 +192,22 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
 
             Log.v(LOG_TAG, "execute: senderID=" + senderID);
 
-            token = FirebaseInstanceId.getInstance().getToken();
+            try{
+                  token = FirebaseInstanceId.getInstance().getToken();  
+            } catch (Exception e){
+              //e may be any type of exception at all.
+              Log.e(LOG_TAG, "execute: sub-exception 1" + e.getMessage());
+            }
+            
 
             if (token == null) {
-              token = FirebaseInstanceId.getInstance().getToken(senderID, FCM);
+              try{
+                  token = FirebaseInstanceId.getInstance().getToken(senderID, FCM);
+                } catch (Exception e){
+                  //e may be any type of exception at all.
+                  Log.e(LOG_TAG, "execute: sub-exception 1" + e.getMessage());
+                }
+              
             }
 
             if (!"".equals(token)) {
@@ -222,6 +234,9 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
 
             Log.e(LOG_TAG, "execute: Got Resources NotFoundException " + e.getMessage());
             callbackContext.error(e.getMessage());
+          } catch (Exception e){
+              //e may be any type of exception at all.
+              Log.e(LOG_TAG, "execute: Some other exception " + e.getMessage());
           }
 
           if (jo != null) {
@@ -294,6 +309,9 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
           } catch (IOException e) {
             Log.e(LOG_TAG, "execute: Got JSON Exception " + e.getMessage());
             callbackContext.error(e.getMessage());
+          } catch (Exception e){
+              //e may be any type of exception at all.
+              Log.e(LOG_TAG, "execute: Some other exception " + e.getMessage());
           }
         }
       });
