@@ -227,16 +227,17 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
           } catch (JSONException e) {
             Log.e(LOG_TAG, "execute: Got JSON Exception " + e.getMessage());
             callbackContext.error(e.getMessage());
-          } catch (IOException e) {
+          } /* catch (IOException e) {
             Log.e(LOG_TAG, "execute: Got IO Exception " + e.getMessage());
             callbackContext.error(e.getMessage());
-          } catch (Resources.NotFoundException e) {
+          } */ catch (Resources.NotFoundException e) {
 
             Log.e(LOG_TAG, "execute: Got Resources NotFoundException " + e.getMessage());
             callbackContext.error(e.getMessage());
           } catch (Exception e){
-              //e may be any type of exception at all.
-              Log.e(LOG_TAG, "execute: Some other exception " + e.getMessage());
+            //e may be any type of exception at all.
+            Log.e(LOG_TAG, "execute: Some other exception " + e.getMessage());
+            callbackContext.error(e.getMessage());
           }
 
           if (jo != null) {
@@ -312,6 +313,7 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
           } catch (Exception e){
               //e may be any type of exception at all.
               Log.e(LOG_TAG, "execute: Some other exception " + e.getMessage());
+              callbackContext.error(e.getMessage());
           }
         }
       });
