@@ -523,9 +523,14 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
   }
 
   private void clearAllNotifications() {
+  
+  try{
     final NotificationManager notificationManager = (NotificationManager) cordova.getActivity()
         .getSystemService(Context.NOTIFICATION_SERVICE);
     notificationManager.cancelAll();
+    } catch (Exception e) {
+        Log.e(LOG_TAG, "ClearallNotifications err: " + e.getMessage());
+      }
   }
 
   private void subscribeToTopics(JSONArray topics, String registrationToken) {
