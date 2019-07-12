@@ -12,11 +12,12 @@ import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.apache.cordova.CallbackContext;
@@ -193,22 +194,25 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
             Log.v(LOG_TAG, "execute: senderID=" + senderID);
 
             try{
-                  token = FirebaseInstanceId.getInstance().getToken();  
+                  //token = FirebaseInstanceId.getInstance().getToken();  
+                  token = FirebaseInstanceId.getInstance().getToken( FirebaseApp.getInstance().getOptions().getGcmSenderId(), FirebaseMessaging.INSTANCE_ID_SCOPE);
             } catch (Exception e){
               //e may be any type of exception at all.
               Log.e(LOG_TAG, "execute: sub-exception 1" + e.getMessage());
             }
             
 
+            /**
             if (token == null) {
               try{
                   token = FirebaseInstanceId.getInstance().getToken(senderID, FCM);
                 } catch (Exception e){
                   //e may be any type of exception at all.
-                  Log.e(LOG_TAG, "execute: sub-exception 1" + e.getMessage());
+                  Log.e(LOG_TAG, "execute: sub-exception 2" + e.getMessage());
                 }
               
             }
+            **/
 
             if (!"".equals(token)) {
               JSONObject json = new JSONObject().put(REGISTRATION_ID, token);
